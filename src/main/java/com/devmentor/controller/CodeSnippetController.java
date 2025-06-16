@@ -1,6 +1,7 @@
 package com.devmentor.controller;
 
-import com.devmentor.dto.CodeSnippetRequestDto;
+import com.devmentor.dto.request.CodeSnippetRequestDto;
+import com.devmentor.dto.response.CodeSnippetResponseDto;
 import com.devmentor.entity.CodeSnippet;
 import com.devmentor.entity.User;
 import com.devmentor.mapper.CodeSnippetMapper;
@@ -28,10 +29,10 @@ public class CodeSnippetController {
         return ResponseEntity.ok(saved);
     }
 
-    @GetMapping("/user/{username}")
-    public ResponseEntity<List<CodeSnippet>> getSnippets(@PathVariable String username) {
-        User user = userService.getByUsername(username);
+    @GetMapping
+    public ResponseEntity<List<CodeSnippetResponseDto>> getSnippetsByUsername(@RequestParam String username) {
+        List<CodeSnippetResponseDto> snippets = snippetService.getSnippetsByUsername(username);
 
-        return ResponseEntity.ok(snippetService.getSnippetsByUser(user));
+        return ResponseEntity.ok(snippets);
     }
 }
