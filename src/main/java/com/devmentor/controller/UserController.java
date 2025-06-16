@@ -1,6 +1,6 @@
 package com.devmentor.controller;
 
-import com.devmentor.dto.UserRegistrationDto;
+import com.devmentor.dto.request.UserRegistrationDto;
 import com.devmentor.entity.User;
 import com.devmentor.mapper.UserMapper;
 import com.devmentor.service.UserService;

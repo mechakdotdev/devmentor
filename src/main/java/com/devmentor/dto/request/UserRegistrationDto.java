@@ -1,4 +1,4 @@
-package com.devmentor.dto;
+package com.devmentor.dto.request;
 
 import lombok.*;
 

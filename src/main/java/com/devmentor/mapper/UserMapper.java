@@ -1,6 +1,6 @@
 package com.devmentor.mapper;
 
-import com.devmentor.dto.UserRegistrationDto;
+import com.devmentor.dto.request.UserRegistrationDto;
 import com.devmentor.entity.User;
 
 public class UserMapper {
