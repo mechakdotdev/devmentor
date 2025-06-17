@@ -7,6 +7,7 @@ import com.devmentor.entity.User;
 import com.devmentor.mapper.CodeSnippetMapper;
 import com.devmentor.service.CodeSnippetService;
 import com.devmentor.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class CodeSnippetController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<CodeSnippet> submitSnippet(@RequestBody CodeSnippetRequestDto dto) {
+    public ResponseEntity<CodeSnippet> submitSnippet(@Valid @RequestBody CodeSnippetRequestDto dto) {
         User user = userService.getByUsername(dto.getUsername());
         CodeSnippet saved = snippetService.submit(CodeSnippetMapper.toEntity(dto, user));
 
