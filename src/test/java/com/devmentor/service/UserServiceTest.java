@@ -24,41 +24,50 @@ class UserServiceTest {
     @InjectMocks
     private UserService userService;
 
-    private User sampleUser;
+    private User mockUser;
 
     @BeforeEach
     void setup() {
-        sampleUser = User.builder()
+        mockUser = User.builder()
                 .id(UUID.randomUUID())
-                .username("test-user")
-                .email("user@test.com")
+                .username("mock-user")
+                .email("user@mock.com")
                 .role(User.Role.JUNIOR)
                 .build();
     }
 
     @Test
     void should_SaveAndReturnUser() {
-        when(userRepository.save(sampleUser)).thenReturn(sampleUser);
+        // Arrange
+        when(userRepository.save(mockUser)).thenReturn(mockUser);
 
-        User result = userService.register(sampleUser);
+        // Act
+        User result = userService.register(mockUser);
 
-        assertThat(result).isEqualTo(sampleUser);
-        verify(userRepository).save(sampleUser);
+        // Assert
+        assertThat(result).isEqualTo(mockUser);
+        verify(userRepository).save(mockUser);
     }
 
     @Test
     void should_ReturnUser_When_UserWithMatchingUsernameExists() {
-        when(userRepository.findByUsername("test-user")).thenReturn(Optional.of(sampleUser));
+        // Arrange
+        when(userRepository.findByUsername("mock-user")).thenReturn(Optional.of(mockUser));
 
-        User result = userService.getByUsername("test-user");
+        // Act
+        User result = userService.getByUsername("mock-user");
 
-        assertThat(result).isEqualTo(sampleUser);
+        // Assert
+        assertThat(result).isEqualTo(mockUser);
     }
 
     @Test
     void should_ThrowException_When_UserWithMatchingUsernameDoesNotExist() {
+        // Arrange
         when(userRepository.findByUsername("nonexistent-user")).thenReturn(Optional.empty());
 
+        // Act
+        // Assert
         assertThatThrownBy(() -> userService.getByUsername("nonexistent-user"))
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessage("User not found with username: nonexistent-user");
