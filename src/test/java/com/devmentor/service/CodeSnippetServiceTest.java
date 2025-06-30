@@ -4,7 +4,6 @@ import com.devmentor.dto.response.CodeSnippetResponseDto;
 import com.devmentor.entity.CodeSnippet;
 import com.devmentor.entity.User;
 import com.devmentor.repository.CodeSnippetRepository;
-import com.devmentor.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +19,7 @@ import static org.mockito.Mockito.*;
 class CodeSnippetServiceTest {
 
     @Mock
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Mock
     private CodeSnippetRepository codeSnippetRepository;
@@ -65,7 +64,7 @@ class CodeSnippetServiceTest {
     @Test
     void should_ReturnAllSnippetsMatchingGivenUsername() {
         // Arrange
-        when(userRepository.findByUsername("mock-user")).thenReturn(Optional.of(mockUser));
+        when(userService.getUser("mock-user")).thenReturn(mockUser);
         when(codeSnippetRepository.findBySubmittedBy(mockUser)).thenReturn(List.of(mockSnippet));
 
         // Act

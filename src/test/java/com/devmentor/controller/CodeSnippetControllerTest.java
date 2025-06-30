@@ -53,7 +53,7 @@ class CodeSnippetControllerTest {
                 .submittedBy(user)
                 .build();
 
-        Mockito.when(userService.getByUsername("mock-user")).thenReturn(user);
+        Mockito.when(userService.getUser("mock-user")).thenReturn(user);
         Mockito.when(codeSnippetService.submit(Mockito.any())).thenReturn(snippet);
 
         // Act

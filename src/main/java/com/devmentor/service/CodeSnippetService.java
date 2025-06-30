@@ -5,7 +5,6 @@ import com.devmentor.entity.CodeSnippet;
 import com.devmentor.entity.User;
 import com.devmentor.mapper.CodeSnippetMapper;
 import com.devmentor.repository.CodeSnippetRepository;
-import com.devmentor.repository.UserRepository;
 import com.devmentor.service.interfaces.ICodeSnippetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CodeSnippetService implements ICodeSnippetService {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final CodeSnippetRepository codeSnippetRepository;
 
     @Override
@@ -27,8 +26,7 @@ public class CodeSnippetService implements ICodeSnippetService {
 
     @Override
     public List<CodeSnippetResponseDto> getSnippetsByUsername(String username) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userService.getUser(username);
 
         List<CodeSnippet> snippets = codeSnippetRepository.findBySubmittedBy(user);
 

@@ -24,7 +24,7 @@ public class CodeSnippetController {
 
     @PostMapping
     public ResponseEntity<CodeSnippet> submitSnippet(@Valid @RequestBody CodeSnippetRequestDto dto) {
-        User user = userService.getByUsername(dto.getUsername());
+        User user = userService.getUser(dto.getUsername());
         CodeSnippet saved = snippetService.submit(CodeSnippetMapper.toEntity(dto, user));
 
         return ResponseEntity.ok(saved);
