@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "code_snippets")
+@Table(name = "code_snippet")
 public class CodeSnippet {
 
     @Id
@@ -26,6 +26,9 @@ public class CodeSnippet {
     private String content;
 
     private LocalDateTime submittedAt;
+
+    @OneToOne(mappedBy = "codeSnippet", cascade = CascadeType.ALL)
+    private Review review;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
