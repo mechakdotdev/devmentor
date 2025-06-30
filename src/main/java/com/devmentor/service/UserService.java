@@ -22,16 +22,12 @@ public class UserService implements IUserService {
 
     @Override
     public User getUser(String username) {
-        var user = userRepository.findByUsername(username);
-
-        if (user == null) {
-            throw new ResourceNotFoundException("User not found with username: " + username);
-        }
-
-        return user;
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with username: " + username));
     }
 
     public List<User> getUsers(List<String> usernames) {
-        return userRepository.findAllByUsernameIn(usernames);
+        return userRepository.findAllByUsernameIn(usernames)
+                .orElseThrow(() -> new ResourceNotFoundException("None of the listed users were found"));
     }
 }
