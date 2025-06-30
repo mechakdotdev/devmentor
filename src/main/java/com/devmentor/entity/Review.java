@@ -27,6 +27,8 @@ public class Review {
             joinColumns = @JoinColumn(name = "review_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+
+    @Builder.Default
     private List<User> reviewers = new ArrayList<>();
 
     private String feedback;

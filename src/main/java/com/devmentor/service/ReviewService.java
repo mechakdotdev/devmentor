@@ -40,7 +40,7 @@ public class ReviewService {
 
     public ReviewResponseDto getReviewBySnippet(UUID snippetId) {
         Review review = reviewRepository.findByCodeSnippetId(snippetId)
-                .orElseThrow(() -> new ResourceNotFoundException("Review not found" + snippetId));
+                .orElseThrow(() -> new ResourceNotFoundException("Review not found for snippet ID: " + snippetId));
 
         return ReviewMapper.toDto(review);
     }
