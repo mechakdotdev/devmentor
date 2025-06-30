@@ -20,11 +20,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(CodeSnippetController.class)
-class CodeSnippetControllerTest {
+class CodeSnippetControllerIntegrationTest {
 
     @Autowired private MockMvc mockMvc;
-    @MockitoBean
-    private CodeSnippetService codeSnippetService;
+    @MockitoBean private CodeSnippetService codeSnippetService;
     @MockitoBean private UserService userService;
     @Autowired private ObjectMapper objectMapper;
 
@@ -42,7 +41,7 @@ class CodeSnippetControllerTest {
                 .id(UUID.randomUUID())
                 .username("mock-user")
                 .email("user@mock.com")
-                .role(User.Role.JUNIOR)
+                .role(User.Role.DEVELOPER)
                 .build();
 
         CodeSnippet snippet = CodeSnippet.builder()

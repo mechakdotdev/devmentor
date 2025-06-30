@@ -33,7 +33,7 @@ class UserServiceTest {
                 .id(UUID.randomUUID())
                 .username("mock-user")
                 .email("user@mock.com")
-                .role(User.Role.JUNIOR)
+                .role(User.Role.DEVELOPER)
                 .build();
     }
 
