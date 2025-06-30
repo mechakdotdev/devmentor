@@ -30,7 +30,7 @@ class UserControllerIntegrationTest {
         UserRegistrationDto dto = UserRegistrationDto.builder()
                 .username("mock-user")
                 .email("user@mock.com")
-                .role("JUNIOR")
+                .role("DEVELOPER")
                 .build();
 
         User savedUser = User.builder()
@@ -50,7 +50,7 @@ class UserControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.username").value("mock-user"))
                 .andExpect(jsonPath("$.email").value("user@mock.com"))
-                .andExpect(jsonPath("$.role").value("JUNIOR"));
+                .andExpect(jsonPath("$.role").value("DEVELOPER"));
     }
 
     @Test
