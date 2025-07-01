@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 class ReviewControllerIntegrationTest {
 
-    @Autowired    private MockMvc mockMvc;
+    @Autowired private MockMvc mockMvc;
     @Autowired private ObjectMapper objectMapper;
 
     @Autowired private UserRepository userRepository;
@@ -38,13 +38,14 @@ class ReviewControllerIntegrationTest {
 
     @Test
     void should_Return200_And_CreateReview() throws Exception {
+        // Arrange
         User mockDeveloper = userRepository.save(User.builder()
                 .username("mock-developer")
                 .email("developer@mock.com")
                 .role(User.Role.DEVELOPER)
                 .build());
 
-        User reviewer = userRepository.save(User.builder()
+        userRepository.save(User.builder()
                 .username("mock-reviewer")
                 .email("reviewer@mock.com")
                 .role(User.Role.REVIEWER)
@@ -63,6 +64,8 @@ class ReviewControllerIntegrationTest {
                 .feedback("Good job")
                 .build();
 
+        // Act
+        // Assert
         mockMvc.perform(post("/api/reviews")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(dto)))
@@ -74,6 +77,7 @@ class ReviewControllerIntegrationTest {
 
     @Test
     void should_Return404_And_FailToCreateReview_When_SnippetMissingFromReviewCreateRequest() throws Exception {
+        // Arrange
         userRepository.save(User.builder()
                 .username("mock-reviewer")
                 .email("mock@reviewer.com")
@@ -86,6 +90,8 @@ class ReviewControllerIntegrationTest {
                 .feedback("Feedback")
                 .build();
 
+        // Act
+        // Assert
         mockMvc.perform(post("/api/reviews")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
@@ -95,6 +101,7 @@ class ReviewControllerIntegrationTest {
 
     @Test
     void should_Return200_And_ReturnReview_When_ReviewFound() throws Exception {
+        // Arrange
         User dev = userRepository.save(User.builder().username("mock-developer").email("mock@developer.com").role(User.Role.DEVELOPER).build());
         User reviewer = userRepository.save(User.builder().username("mock-reviewer").email("mock@reviewer.com").role(User.Role.REVIEWER).build());
 
@@ -112,6 +119,8 @@ class ReviewControllerIntegrationTest {
                 .createdAt(LocalDateTime.now())
                 .build());
 
+        // Act
+        // Assert
         mockMvc.perform(get("/api/reviews/snippet/" + snippet.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(review.getId().toString()))
@@ -120,8 +129,11 @@ class ReviewControllerIntegrationTest {
 
     @Test
     void should_Return404_And_FailToGetReview_When_ReviewNotFound() throws Exception {
+        // Arrange
         UUID snippetId = UUID.randomUUID();
 
+        // Act
+        // Assert
         mockMvc.perform(get("/api/reviews/snippet/" + snippetId))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Review not found for snippet ID: " + snippetId));
@@ -129,6 +141,7 @@ class ReviewControllerIntegrationTest {
 
     @Test
     void should_Return200_And_ReturnReviews_When_ReviewsWithMatchingReviewerFound() throws Exception {
+        // Arrange
         User mockReviewer = userRepository.save(User.builder().username("mock-reviewer").email("mock@reviewer.com").role(User.Role.REVIEWER).build());
         User mockDeveloper = userRepository.save(User.builder().username("mock-developer").email("mock@developer.com").role(User.Role.DEVELOPER).build());
 
@@ -146,6 +159,8 @@ class ReviewControllerIntegrationTest {
                 .createdAt(LocalDateTime.now())
                 .build());
 
+        // Act
+        // Assert
         mockMvc.perform(get("/api/reviews/reviewer")
                         .param("username", "mock-reviewer"))
                 .andExpect(status().isOk())
@@ -155,6 +170,10 @@ class ReviewControllerIntegrationTest {
 
     @Test
     void should_Return404_And_FailToGetReview_When_NoReviewsFoundWithMatchingReviewer() throws Exception {
+        // Arrange
+
+        // Act
+        // Assert
         mockMvc.perform(get("/api/reviews/reviewer")
                         .param("username", "nonexistent-reviewer"))
                 .andExpect(status().isNotFound())
